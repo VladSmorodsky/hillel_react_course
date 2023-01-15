@@ -6,7 +6,6 @@ class Person extends Component {
     name: 'Stepan',
     age: 25,
     personDataAreHidden: true,
-    buttonText: 'Show'
   }
 
   changePersonData = () => {
