@@ -19,7 +19,7 @@ class Person extends Component {
   render() {
     return (
       <div className={'person-data'}>
-        <div className={this.state.personDataAreHidden ? 'btn-hidden' : ''}>
+        <div className={this.state.personDataAreHidden ? 'hidden' : ''}>
           Name: {this.state.name},
           age: {this.state.age}
         </div>
