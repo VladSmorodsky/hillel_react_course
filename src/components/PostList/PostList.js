@@ -13,6 +13,7 @@ class PostList extends Component {
       posts: [],
     };
     this.updatePost = this.updatePost.bind(this);
+    this.deletePost = this.deletePost.bind(this);
   }
 
   async fetchPosts() {
@@ -51,11 +52,29 @@ class PostList extends Component {
     }
   }
 
+  async deletePost(id) {
+    try {
+      const url = this.postsApiUrl + '/' + id;
+      const result = await axios.delete(url);
+
+      if (result.status === 200) {
+        const updatedPosts = this.state.posts.filter(post => post.id !== id);
+        this.setState((prevState) => ({ ...prevState, posts: updatedPosts }));
+      }
+    } catch (e) {
+      console.log('[deletePost]', e);
+    }
+  }
+
   render() {
     return (
       <>
         {this.state.posts.map(post => (
-          <Post key={post.id} post={post} updatePost={this.updatePost} />
+          <Post key={post.id}
+                post={post}
+                deletePost={this.deletePost}
+                updatePost={this.updatePost}
+          />
         ))}
         <p>{this.state.isFetching ? 'Fetching posts...' : '' }</p>
       </>

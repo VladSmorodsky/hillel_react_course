@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {Button, Card} from 'react-bootstrap';
 import EditPost from "./EditPost/EditPost";
+import DeletePost from "./DeletePost/DeletePost";
 
 class Post extends Component {
   state = {
     post: this.props.post,
-    isPostEdit: false,
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -25,8 +25,14 @@ class Post extends Component {
             <Card.Text>
               {this.state.post.body}
             </Card.Text>
-            <EditPost id={this.state.post.id} title={this.state.post.title} updatePost={this.props.updatePost} />
-            <Button className="post-action_delete btn btn-danger mx-1">Delete</Button>
+            <EditPost id={this.state.post.id}
+                      title={this.state.post.title}
+                      updatePost={this.props.updatePost}
+            />
+            <DeletePost id={this.state.post.id}
+                        title={this.state.post.title}
+                        deletePost={this.props.deletePost}
+            />
           </Card.Body>
         </Card>
       </>
