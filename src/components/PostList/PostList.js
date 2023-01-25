@@ -17,12 +17,12 @@ class PostList extends Component {
 
   async fetchPosts() {
     try {
-      this.setState({ ...this.state, isFetching: true});
+      this.setState((prevState) => ({ ...prevState, isFetching: true}));
       const result = await axios.get(this.postsApiUrl);
       this.setState({ posts: result.data, isFetching: false});
     } catch (e) {
       console.log(e);
-      this.setState({ ...this.state, isFetching: false});
+      this.setState((prevState) => ({ ...prevState, isFetching: false}));
     }
   }
 
@@ -44,14 +44,14 @@ class PostList extends Component {
 
         return post;
       });
-      await this.setState({...this.state, posts: updatedPosts});
+
+      this.setState((prevState) => ({ ...prevState, posts: updatedPosts }));
     } catch (e) {
       console.log('[updatePost]', e);
     }
   }
 
   render() {
-    console.log('[posts]', this.state.posts);
     return (
       <>
         {this.state.posts.map(post => (

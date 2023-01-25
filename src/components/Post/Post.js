@@ -8,8 +8,10 @@ class Post extends Component {
     isPostEdit: false,
   };
 
-  constructor(props) {
-    super(props);
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (JSON.stringify(prevState.post) !== JSON.stringify(this.props.post)) {
+      this.setState((prevState) => ({...prevState, post: this.props.post}));
+    }
   }
 
   render() {

@@ -14,16 +14,17 @@ class EditPost extends Component {
   }
 
   openModalWindow() {
-    this.setState({...this.state, show: true});
+    this.setState((prevState) => ({ ...prevState,  show: true}));
   }
 
   closeModalWindow() {
-    this.setState({...this.state, show: false});
+    this.setState((prevState) => ({ ...prevState,  show: false}));
   }
 
   async updatePostTitle() {
     try {
       this.props.updatePost(this.props.id, this.state.postTitle);
+      this.closeModalWindow();
     } catch (e) {
       console.log('[editPost]', e);
     }
