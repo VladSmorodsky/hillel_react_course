@@ -30,6 +30,12 @@ class DeletePost extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.postTitle !== this.props.title) {
+      this.setState((prevState) => ({...prevState, postTitle: this.props.title}));
+    }
+  }
+
   render() {
     return (
       <>
