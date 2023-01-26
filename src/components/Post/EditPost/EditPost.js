@@ -6,7 +6,7 @@ class EditPost extends Component {
     super(props);
     this.state = {
       postTitle: this.props.title,
-      show: false
+      show: false,
     };
     this.openModalWindow = this.openModalWindow.bind(this);
     this.closeModalWindow  = this.closeModalWindow.bind(this);
@@ -49,7 +49,7 @@ class EditPost extends Component {
                        id="postTitle"
                        placeholder="Enter post title"
                        value={this.state.postTitle}
-                       onChange={(e) => this.setState({...this.state, postTitle: e.target.value})}
+                       onChange={(e) => this.setState((prevState) => ({...prevState, postTitle: e.target.value}))}
                 />
               </div>
             </form>

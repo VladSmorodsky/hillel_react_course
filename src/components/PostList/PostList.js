@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Post from "../Post/Post";
+import Notification from "../Notification/Notification";
 
 class PostList extends Component {
   postsApiUrl = 'https://jsonplaceholder.typicode.com/posts';
@@ -10,6 +11,8 @@ class PostList extends Component {
 
     this.state = {
       isFetching: false,
+      showNotification: false,
+      notificationText: '',
       posts: [],
     };
     this.updatePost = this.updatePost.bind(this);
@@ -46,7 +49,12 @@ class PostList extends Component {
         return post;
       });
 
-      this.setState((prevState) => ({ ...prevState, posts: updatedPosts }));
+      this.setState((prevState) => ({
+        ...prevState,
+        posts: updatedPosts,
+        showNotification: true,
+        notificationText: "Post was successfully updated",
+      }));
     } catch (e) {
       console.log('[updatePost]', e);
     }
@@ -59,7 +67,12 @@ class PostList extends Component {
 
       if (result.status === 200) {
         const updatedPosts = this.state.posts.filter(post => post.id !== id);
-        this.setState((prevState) => ({ ...prevState, posts: updatedPosts }));
+        this.setState((prevState) => ({
+          ...prevState,
+          posts: updatedPosts,
+          showNotification: true,
+          notificationText: "Post was successfully deleted",
+        }));
       }
     } catch (e) {
       console.log('[deletePost]', e);
@@ -77,6 +90,7 @@ class PostList extends Component {
           />
         ))}
         <p>{this.state.isFetching ? 'Fetching posts...' : '' }</p>
+        <Notification show={this.state.showNotification} text={this.state.notificationText} />
       </>
     );
   }
