@@ -5,7 +5,7 @@ class DeletePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postTitle: this.props.title,
+      postTitle: null,
       show: false
     };
     this.openModalWindow = this.openModalWindow.bind(this);
@@ -14,48 +14,44 @@ class DeletePost extends Component {
   }
 
   openModalWindow() {
-    this.setState((prevState) => ({ ...prevState,  show: true}));
+    this.setState({show: true});
   }
 
   closeModalWindow() {
-    this.setState((prevState) => ({ ...prevState,  show: false}));
+    this.setState({show: false});
   }
 
-  async deletePost() {
+  deletePost() {
     try {
       this.props.deletePost(this.props.id);
-      this.closeModalWindow();
-    } catch (e) {
-      console.log('[deletePost]', e);
-    }
+    } catch (e) {}
+  }
+
+  componentDidMount() {
+    this.setState({postTitle: this.props.title, show: this.props.show});
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevState.postTitle !== this.props.title) {
-      this.setState((prevState) => ({...prevState, postTitle: this.props.title}));
+      this.setState({postTitle: this.props.title});
     }
   }
 
   render() {
     return (
-      <>
-        <Button className="post-action_edit btn btn-danger mx-1"
-                onClick={this.openModalWindow}>Delete
-        </Button>
-        <Modal show={this.state.show} onHide={this.closeModalWindow}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Post</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>Post <strong>{this.state.postTitle}</strong> will be removed!</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={this.deletePost}>
-              Delete Post
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
+      <Modal show={this.state.show} onHide={this.closeModalWindow}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Post <strong>{this.state.postTitle}</strong> will be removed</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={this.deletePost}>
+            Delete Post
+          </Button>
+        </Modal.Footer>
+      </Modal>
     );
   }
 }

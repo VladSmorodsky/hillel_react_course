@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import Post from "../Post/Post";
 import Notification from "../Notification/Notification";
+import EditPost from "../Post/EditPost/EditPost";
+import DeletePost from "../Post/DeletePost/DeletePost";
 
 class PostList extends Component {
   postsApiUrl = 'https://jsonplaceholder.typicode.com/posts';
@@ -14,24 +16,46 @@ class PostList extends Component {
       showNotification: false,
       notificationText: '',
       posts: [],
+
+      editablePost: null,
+      deletedPost: null,
+
+      showEditForm: false,
+      showDeleteForm: false,
     };
+    this.onPostEdit = this.onPostEdit.bind(this);
+    this.onPostDelete = this.onPostDelete.bind(this);
     this.updatePost = this.updatePost.bind(this);
     this.deletePost = this.deletePost.bind(this);
+    this.hideNotification = this.hideNotification.bind(this);
+  }
+
+  hideNotification() {
+    this.setState({
+      showNotification: false,
+    });
   }
 
   async fetchPosts() {
     try {
-      this.setState((prevState) => ({ ...prevState, isFetching: true}));
+      this.setState({isFetching: true});
       const result = await axios.get(this.postsApiUrl);
       this.setState({ posts: result.data, isFetching: false});
     } catch (e) {
-      console.log(e);
-      this.setState((prevState) => ({ ...prevState, isFetching: false}));
+      this.setState({isFetching: false});
     }
   }
 
   componentDidMount() {
     this.fetchPosts();
+  }
+
+  onPostEdit(post) {
+    this.setState({editablePost: post, showEditForm: true});
+  }
+
+  onPostDelete(post) {
+    this.setState({deletedPost: post, showDeleteForm: true});
   }
 
   async updatePost(id, newTitle) {
@@ -49,15 +73,14 @@ class PostList extends Component {
         return post;
       });
 
-      this.setState((prevState) => ({
-        ...prevState,
+      this.setState({
         posts: updatedPosts,
+        showEditForm: false,
+        editablePost: null,
         showNotification: true,
         notificationText: "Post was successfully updated",
-      }));
-    } catch (e) {
-      console.log('[updatePost]', e);
-    }
+      });
+    } catch (e) {}
   }
 
   async deletePost(id) {
@@ -67,30 +90,61 @@ class PostList extends Component {
 
       if (result.status === 200) {
         const updatedPosts = this.state.posts.filter(post => post.id !== id);
-        this.setState((prevState) => ({
-          ...prevState,
+        this.setState({
+          showDeleteForm: false,
+          deletedPost: null,
           posts: updatedPosts,
           showNotification: true,
           notificationText: "Post was successfully deleted",
-        }));
+        });
       }
-    } catch (e) {
-      console.log('[deletePost]', e);
-    }
+    } catch (e) {}
   }
 
   render() {
+    const {
+      isFetching,
+      posts,
+      editablePost,
+      showNotification,
+      notificationText,
+      showEditForm,
+      deletedPost,
+      showDeleteForm
+    } = this.state;
+
+    const editPostDialog = editablePost ?
+      <EditPost show={showEditForm}
+                postId={editablePost.id}
+                postTitle={editablePost.title}
+                updatePost={this.updatePost}
+      /> : null;
+
+    const deletePostDialog = deletedPost ?
+      <DeletePost show={showDeleteForm}
+                  id={deletedPost.id}
+                  title={deletedPost.title}
+                  deletePost={this.deletePost}
+      /> : null;
+
     return (
       <>
-        {this.state.posts.map(post => (
+        {posts.map(post => (
           <Post key={post.id}
                 post={post}
-                deletePost={this.deletePost}
-                updatePost={this.updatePost}
+                onEdit={this.onPostEdit}
+                onDelete={this.onPostDelete}
           />
         ))}
-        <p>{this.state.isFetching ? 'Fetching posts...' : '' }</p>
-        <Notification show={this.state.showNotification} text={this.state.notificationText} />
+        <p>{isFetching ? 'Fetching posts...' : '' }</p>
+
+        { editPostDialog }
+        { deletePostDialog }
+
+        <Notification show={showNotification} 
+                      text={notificationText}
+                      onEndAction={this.hideNotification}
+        />
       </>
     );
   }
