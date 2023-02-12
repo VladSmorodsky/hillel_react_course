@@ -8,21 +8,27 @@ class Notification extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.show !== this.props.show) {
-      this.setState((prevState) => ({...prevState, show: true}));
-      this.timerId = setTimeout(() => {
-        this.setState((prevState) => ({...prevState, show: false}))
-      }, 2000);
+
+    if(prevProps.show !== this.props.show){
+      this.setState({show: this.props.show});
+    }
+
+    if(prevState.show !== this.props.show && this.state.show){
+      this.timerId = setTimeout(()=>{
+        this.setState({show: false});
+        this.props.onEndAction();
+      }, 1000)
     }
   }
 
   componentWillUnmount() {
     clearTimeout(this.timerId);
+    this.setState({show: false});
   }
 
   render() {
