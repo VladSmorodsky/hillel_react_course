@@ -157,10 +157,30 @@ li {
     margin: 0;
 }
 
-.tab.tab__active {
+.language__active {
     color: #d0021b;
 }
 
 .tab:hover {
     cursor: pointer;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.search-container input {
+    width: 200px;
+}
+
+input.validation-error {
+    border: 1px solid #d0021b;
+    box-shadow: 0 0 10px #d0021b
+}
+
+.validation-error-message {
+    color: #d0021b;
+    font-size: 11px;
 }
