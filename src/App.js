@@ -4,6 +4,7 @@ import {NotFound} from "./pages/NotFound";
 import {Popular} from "./pages/Popular";
 import {Battle} from "./pages/Battle";
 import {Navigation} from "./components/Navigation";
+import {BattleResult} from "./pages/BattleResult";
 
 const App = () =>{
   return (
@@ -14,6 +15,7 @@ const App = () =>{
           <Route path={'/'} element={<Home />} />
           <Route path={'/popular'} element={<Popular />} />
           <Route path={'/battle'} element={<Battle />} />
+          <Route path={'/battle/result'} element={<BattleResult />} />
 
           <Route path={'*'} element={<NotFound />} />
         </Routes>
