@@ -184,3 +184,12 @@ input.validation-error {
     color: #d0021b;
     font-size: 11px;
 }
+
+.button:disabled {
+    opacity: 0.5;
+}
+
+.start-battle--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
