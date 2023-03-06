@@ -20,6 +20,7 @@ export const Battle = () => {
     }
   });
   let [playersId, setPlayersId] = useState(['player1', 'player2', 'player3']);
+  let [playerNames, setPlayerNames] = useState([]);
 
   const submitPlayer = (id, username) => {
     setPlayers((prevState) => ({
@@ -29,6 +30,11 @@ export const Battle = () => {
         username: username,
         avatar: `https://github.com/${username}.png?size=200`,
       }
+    }));
+
+    setPlayerNames((prevState) => ({
+      ...prevState,
+      [id]: username,
     }));
   }
 
@@ -47,6 +53,10 @@ export const Battle = () => {
     const availablePlayer = playersId.filter( id => !!players[id].username );
 
     return availablePlayer.length === playersId.length;
+  }
+
+  const generateLinkState = (players) => {
+    return playersId.map((playerId) => ({[playerId]: players[playerId].username}));
   }
 
   const showPlayerData = (id) => {
@@ -70,6 +80,7 @@ export const Battle = () => {
       </div>
       <div className="container d-flex justify-content-center">
         <Link to="/battle/result"
+              state={playerNames}
               className={`btn btn-primary ${!playersAreSelected() ? 'start-battle--disabled' : '' }`}>
           Start Battle
         </Link>
