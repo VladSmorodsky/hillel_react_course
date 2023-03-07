@@ -1,7 +1,6 @@
 import {Player} from "../components/Player";
 import {useState} from "react";
 import {PlayerPreview} from "../components/PlayerPreview";
-import button from "bootstrap/js/src/button";
 import {Link} from "react-router-dom";
 
 export const Battle = () => {
@@ -14,12 +13,8 @@ export const Battle = () => {
       username: '',
       avatar: ''
     },
-    'player3': {
-      username: '',
-      avatar: ''
-    }
   });
-  let [playersId, setPlayersId] = useState(['player1', 'player2', 'player3']);
+  let [playersId, setPlayersId] = useState(['player1', 'player2']);
   let [playerNames, setPlayerNames] = useState([]);
 
   const submitPlayer = (id, username) => {
@@ -60,7 +55,7 @@ export const Battle = () => {
   }
 
   const showPlayerData = (id) => {
-    if (!!players[id].username) {
+    if (!!players[id].avatar) {
       return <PlayerPreview
         key={id}
         avatar={players[id].avatar}
