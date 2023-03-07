@@ -23,6 +23,7 @@ export const BattleResult = () => {
         return (
           <PlayerPreview key={id} avatar={avatar_url} username={login}>
             <Summary key={id}
+                     isWinner={player.winner}
                      starsCount={player.totalScores}
                      company={company}
                      location={location}
