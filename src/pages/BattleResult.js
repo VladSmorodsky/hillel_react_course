@@ -5,6 +5,7 @@ import {PlayerPreview} from "../components/PlayerPreview";
 import {Summary} from "../components/Summary";
 import {Loader} from "../components/Loader";
 import {Error} from "../components/Error";
+import {BattleStatus} from "../components/BattleStatus";
 
 export const BattleResult = () => {
   let [playersSummary, setPlayersSummary] = useState([]);
@@ -36,9 +37,12 @@ export const BattleResult = () => {
         {playersSummary.map(player => {
           let {id, avatar_url, login, location, company, followers, following, public_repos, blog} = player.profile;
           return (
-            <PlayerPreview key={id} avatar={avatar_url} username={login}>
+            <PlayerPreview key={id}
+                           avatar={avatar_url}
+                           username={login}
+            >
+              <BattleStatus isWinner={player.winner} />
               <Summary key={id}
-                       isWinner={player.winner}
                        starsCount={player.totalScores}
                        company={company}
                        location={location}

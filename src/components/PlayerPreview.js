@@ -14,6 +14,7 @@ export const PlayerPreview = (props) => {
   return (
     <div className="player-preview">
       <div className="column">
+        {renderChildren('BattleStatus')}
         <img className="avatar" src={avatar} alt="Avatar"/>
         <h2 className="username">{props.username}</h2>
         {renderChildren('Summary')}
