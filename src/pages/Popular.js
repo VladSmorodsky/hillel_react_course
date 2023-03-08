@@ -3,6 +3,8 @@ import {fetchPopularRepositories, fetchSearchResult} from "../api/githubApi";
 import {LanguageList} from "../components/LanguageList";
 import {RepositoryList} from "../components/RepositoryList";
 import {useSearchParams} from "react-router-dom";
+import {Error} from "../components/Error";
+import {Loader} from "../components/Loader";
 
 const languages = ["All", 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
 const allowSymbols = /[A-Za-z]+/g;
@@ -80,11 +82,11 @@ export const Popular = () => {
 
   const showContent = () => {
     if (loading) {
-      return <p>Loading...</p>;
+      return <Loader>Loading popular repositories...</Loader>;
     }
 
     if (error) {
-      return <p>{error}</p>
+      return <Error>{error}</Error>
     }
 
     if (searchRepoQuery.length && isSearching && validationError === null) {
