@@ -3,12 +3,12 @@ export const Summary = (props) => {
     <div className={"d-flex flex-column"}>
       {Object.entries(props).map(([propKey, propValue]) => {
         if (propKey === 'isWinner') {
-          return propValue ? <p className={"text-success font-weight-bold"}>Winner</p>
-            : <p className={"text-danger font-weight-bold"}>Looser</p>
+          return propValue ? <h2 key={propKey} className={"text-success font-weight-bold"}>Winner</h2>
+            : <h2 key={propKey} className={"text-danger font-weight-bold"}>Looser</h2>
         }
         return (
-          <div>
-            <p>{propKey}: {propValue !== null ? propValue : '-'}</p>
+          <div key={propKey}>
+            <p><b>{propKey}</b>: {propValue !== null ? propValue : '-'}</p>
           </div>
         );
       })}
