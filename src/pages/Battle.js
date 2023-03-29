@@ -1,7 +1,6 @@
 import {Player} from "../components/Player";
 import {useState} from "react";
 import {PlayerPreview} from "../components/PlayerPreview";
-import button from "bootstrap/js/src/button";
 import {Link} from "react-router-dom";
 
 export const Battle = () => {
@@ -14,12 +13,9 @@ export const Battle = () => {
       username: '',
       avatar: ''
     },
-    'player3': {
-      username: '',
-      avatar: ''
-    }
   });
-  let [playersId, setPlayersId] = useState(['player1', 'player2', 'player3']);
+  let [playersId, setPlayersId] = useState(['player1', 'player2']);
+  let [playerNames, setPlayerNames] = useState([]);
 
   const submitPlayer = (id, username) => {
     setPlayers((prevState) => ({
@@ -29,6 +25,11 @@ export const Battle = () => {
         username: username,
         avatar: `https://github.com/${username}.png?size=200`,
       }
+    }));
+
+    setPlayerNames((prevState) => ({
+      ...prevState,
+      [id]: username,
     }));
   }
 
@@ -49,8 +50,12 @@ export const Battle = () => {
     return availablePlayer.length === playersId.length;
   }
 
+  const generateLinkState = (players) => {
+    return playersId.map((playerId) => ({[playerId]: players[playerId].username}));
+  }
+
   const showPlayerData = (id) => {
-    if (!!players[id].username) {
+    if (!!players[id].avatar) {
       return <PlayerPreview
         key={id}
         avatar={players[id].avatar}
@@ -70,6 +75,7 @@ export const Battle = () => {
       </div>
       <div className="container d-flex justify-content-center">
         <Link to="/battle/result"
+              state={playerNames}
               className={`btn btn-primary ${!playersAreSelected() ? 'start-battle--disabled' : '' }`}>
           Start Battle
         </Link>
