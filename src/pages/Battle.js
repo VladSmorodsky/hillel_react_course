@@ -1,57 +1,26 @@
 import {Player} from "../components/Player";
-import {useState} from "react";
 import {PlayerPreview} from "../components/PlayerPreview";
 import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {setPlayerAction} from "../state/profile/profile.action";
 
 export const Battle = () => {
-  let [players, setPlayers] = useState({
-    'player1': {
-      username: '',
-      avatar: ''
-    },
-    'player2': {
-      username: '',
-      avatar: ''
-    },
-  });
-  let [playersId, setPlayersId] = useState(['player1', 'player2']);
-  let [playerNames, setPlayerNames] = useState([]);
-
-  const submitPlayer = (id, username) => {
-    setPlayers((prevState) => ({
-      ...prevState,
-      [id]: {
-        ...prevState[id],
-        username: username,
-        avatar: `https://github.com/${username}.png?size=200`,
-      }
-    }));
-
-    setPlayerNames((prevState) => ({
-      ...prevState,
-      [id]: username,
-    }));
-  }
+  const dispatch = useDispatch();
+  let players = useSelector(state => state.profileReducer.players);
+  let playersId = useSelector(state => state.profileReducer.playersId);
 
   const resetPlayer = (id) => {
-    setPlayers((prevState) => ({
-      ...prevState,
-      [id]: {
-        ...prevState[id],
+    dispatch(setPlayerAction({id: id, data: {
         username: '',
         avatar: '',
-      }
-    }));
+      }})
+    );
   }
 
   const playersAreSelected = () => {
     const availablePlayer = playersId.filter( id => !!players[id].username );
 
     return availablePlayer.length === playersId.length;
-  }
-
-  const generateLinkState = (players) => {
-    return playersId.map((playerId) => ({[playerId]: players[playerId].username}));
   }
 
   const showPlayerData = (id) => {
@@ -65,7 +34,7 @@ export const Battle = () => {
       ;
     }
 
-    return <Player key={id} id={id} selectPlayer={submitPlayer} />
+    return <Player key={id} id={id} />
   }
 
   return (
@@ -75,8 +44,8 @@ export const Battle = () => {
       </div>
       <div className="container d-flex justify-content-center">
         <Link to="/battle/result"
-              state={playerNames}
-              className={`btn btn-primary ${!playersAreSelected() ? 'start-battle--disabled' : '' }`}>
+              className={`btn btn-primary ${!playersAreSelected() ? 'start-battle--disabled' : '' }`}
+        >
           Start Battle
         </Link>
       </div>

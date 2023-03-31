@@ -52,5 +52,5 @@ export const battle = (playersUsername) => {
     Object.entries(playersUsername).map(([playerId, playerName]) => getData(playerName))
   )
     .then(players => battleResult(players))
-    .catch(error => console.log(error));
+    .catch(error => error);
 }

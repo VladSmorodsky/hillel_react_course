@@ -1,26 +1,24 @@
-import {useEffect, useState} from "react";
-import {Link, useLocation} from "react-router-dom";
-import {battle} from "../api/githubApi";
+import {useEffect} from "react";
+import {Link} from "react-router-dom";
 import {PlayerPreview} from "../components/PlayerPreview";
 import {Summary} from "../components/Summary";
 import {Loader} from "../components/Loader";
 import {Error} from "../components/Error";
 import {BattleStatus} from "../components/BattleStatus";
+import {useDispatch, useSelector} from "react-redux";
+import {getBattleResult} from "../state/profile/profile.thunk";
 
 export const BattleResult = () => {
-  let [playersSummary, setPlayersSummary] = useState([]);
-  let [loading, setLoading] = useState(true);
-  let [error, setError] = useState(null);
 
-  let playerNames = useLocation();
+  const dispatch = useDispatch();
+
+  const usernames = useSelector(state => state.profileReducer.usernames);
+  let playersSummary = useSelector(state => state.profileReducer.playersSummary);
+  let error = useSelector(state => state.repositoryReducer.error);
+  let loading = useSelector(state => state.repositoryReducer.loading);
+
   useEffect(() => {
-    battle(playerNames.state)
-      .then(players => {
-        players[0].winner = true;
-        setPlayersSummary(players);
-      })
-      .catch(error => setError(error))
-      .finally(() => setLoading(false));
+    dispatch(getBattleResult(usernames));
   }, []);
 
   const showContent = () => {
@@ -34,16 +32,16 @@ export const BattleResult = () => {
 
     return (
       <div className={"d-flex justify-content-around mt-4"}>
-        {playersSummary.map(player => {
-          let {id, avatar_url, login, location, company, followers, following, public_repos, blog} = player.profile;
+        {Object.entries(playersSummary).map(([key, playerSummary]) => {
+          let {id, avatar_url, login, location, company, followers, following, public_repos, blog} = playerSummary.profile;
           return (
             <PlayerPreview key={id}
                            avatar={avatar_url}
                            username={login}
             >
-              <BattleStatus isWinner={player.winner} />
+              <BattleStatus isWinner={playerSummary.winner} />
               <Summary key={id}
-                       starsCount={player.totalScores}
+                       starsCount={playerSummary.totalScores}
                        company={company}
                        location={location}
                        followers={followers}
