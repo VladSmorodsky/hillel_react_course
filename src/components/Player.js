@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {setPlayerAction, setUsernameAction} from "../state/profile/profile.action";
+import {setPlayerAction} from "../state/profile/profile.slice";
 import {useDispatch} from "react-redux";
 
 export const Player = (props) => {
@@ -13,7 +13,6 @@ export const Player = (props) => {
         avatar: `https://github.com/${username}.png?size=200`,
       }})
     );
-    dispatch(setUsernameAction({id: props.id, username: username}))
   }
 
   return (

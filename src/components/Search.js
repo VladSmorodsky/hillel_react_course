@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import {useEffect, useState} from "react";
-import {getRepos, searchRepos} from "../state/repository/repository.thunk";
+import {getRepos, searchRepos} from "../state/repository/repository.slice";
 
 const allowSymbols = /^[A-Za-z]+$/;
 

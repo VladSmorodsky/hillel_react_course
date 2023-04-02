@@ -2,7 +2,7 @@ import {Player} from "../components/Player";
 import {PlayerPreview} from "../components/PlayerPreview";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setPlayerAction} from "../state/profile/profile.action";
+import {setPlayerAction} from "../state/profile/profile.slice";
 
 export const Battle = () => {
   const dispatch = useDispatch();

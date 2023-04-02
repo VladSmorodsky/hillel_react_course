@@ -49,7 +49,9 @@ export const battleResult = (players) => {
 
 export const battle = (playersUsername) => {
   return Promise.all(
-    Object.entries(playersUsername).map(([playerId, playerName]) => getData(playerName))
+    Object.entries(playersUsername).map(([playerId, player]) => {
+      return getData(player.username);
+    })
   )
     .then(players => battleResult(players))
     .catch(error => error);
