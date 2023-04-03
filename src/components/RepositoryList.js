@@ -1,6 +1,6 @@
 import {memo, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getRepos} from "../state/repository/repository.thunk";
+import {getRepos} from "../state/repository/repository.slice";
 
 export const RepositoryList = memo(() => {
   const dispatch = useDispatch();

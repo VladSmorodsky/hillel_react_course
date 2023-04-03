@@ -6,7 +6,7 @@ import {Loader} from "../components/Loader";
 import {Error} from "../components/Error";
 import {BattleStatus} from "../components/BattleStatus";
 import {useDispatch, useSelector} from "react-redux";
-import {getBattleResult} from "../state/profile/profile.thunk";
+import {getBattleResult} from "../state/profile/profile.slice";
 
 export const BattleResult = () => {
 

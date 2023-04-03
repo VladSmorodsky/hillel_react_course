@@ -1,6 +1,6 @@
 import {memo} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {setLanguageAction} from "../state/repository/repository.action";
+import {setLanguageAction} from "../state/repository/repository.slice";
 
 const languages = ["All", 'Javascript', 'Ruby', 'Java', 'CSS', 'Python'];
 
